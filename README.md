@@ -1,7 +1,7 @@
 # Potters
 
 [![Modrinth](https://img.shields.io/modrinth/dt/potters?color=00AF5C&label=downloads&logo=modrinth)](https://modrinth.com/mod/potters)
-[![CurseForge](https://cf.way2muchnoise.eu/full_######_downloads.svg)](https://curseforge.com/minecraft/mc-mods/potters)
+[![CurseForge](https://cf.way2muchnoise.eu/full_922767_downloads.svg)](https://curseforge.com/minecraft/mc-mods/potters)
 
 A small mod that allows Decorated Pots to contain multiple types of items up to a stack, functioning similarly to bundles, but as a block instead. 
 
