@@ -18,7 +18,7 @@ public abstract class ConfigManager {
     public static void loadConfig() {
         Config config = load();
 
-        if(config.numberOfStacks == null || config.numberOfStacks < 1 || config.numberOfStacks > Math.pow(2, 25)) {
+        if(config.numberOfStacks == null || config.numberOfStacks < 1 || config.numberOfStacks > Math.pow(2, 24)) {
             config.numberOfStacks = 1;
         }
 
