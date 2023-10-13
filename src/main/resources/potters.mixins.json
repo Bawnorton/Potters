@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "com.bawnorton.potters.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "DecoratedPotBlockBlockEntityMixin",
+    "DecoratedPotBlockMixin",
+    "HopperBlockEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+	}
+}

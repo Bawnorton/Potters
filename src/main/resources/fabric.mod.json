@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "potters",
+	"version": "${version}",
+	"name": "Potters",
+	"description": "Allow pots to hold multiple item types rather than a single type.",
+	"authors": [
+		"Bawnorton"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/potters/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.bawnorton.potters.Potters"
+		],
+		"client": [
+			"com.bawnorton.potters.PottersClient"
+		]
+	},
+	"mixins": [
+		"potters.mixins.json",
+		{
+			"config": "potters.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.14.23",
+		"minecraft": "*",
+		"java": ">=17"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
