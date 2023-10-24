@@ -11,7 +11,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.DecoratedPotBlockEntity;
-import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SingleStackInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 @Mixin(DecoratedPotBlockEntity.class)
-public abstract class DecoratedPotBlockBlockEntityMixin extends BlockEntity implements DecoratedPotBlockEntityExtender {
+public abstract class DecoratedPotBlockBlockEntityMixin extends BlockEntity implements SingleStackInventory, DecoratedPotBlockEntityExtender {
     @Unique
     private CombinedStorage<ItemVariant, Storage<ItemVariant>> potters$inventoryWrapper;
     @Unique
@@ -71,7 +71,7 @@ public abstract class DecoratedPotBlockBlockEntityMixin extends BlockEntity impl
     @Override
     public CombinedStorage<ItemVariant, Storage<ItemVariant>> potters$getInventoryWrapper() {
         if(potters$inventoryWrapper == null) potters$inventoryWrapper = new CombinedStorage<>(List.of(
-            InventoryStorage.of((Inventory) this, null),
+            InventoryStorage.of(this, null),
             InventoryStorage.of(potters$getAdditionalInventory(), null)
         ));
         return potters$inventoryWrapper;
