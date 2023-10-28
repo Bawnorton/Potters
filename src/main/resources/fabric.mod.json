@@ -20,6 +20,9 @@
 		],
 		"client": [
 			"com.bawnorton.potters.client.PottersClient"
+		],
+		"fabric-datagen": [
+			"com.bawnorton.potters.datagen.PottersDataGenerator"
 		]
 	},
 	"mixins": [

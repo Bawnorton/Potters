@@ -1,13 +1,28 @@
 package com.bawnorton.potters.storage;
 
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FiniteDecoratedPotStorage extends PottersDecoratedPotStorageBase {
     protected long stackCount;
 
     public FiniteDecoratedPotStorage(long stackCount) {
         this.stackCount = stackCount;
+    }
+
+    public List<ItemStack> getStacks() {
+        long count = getCount().longValue();
+        List<ItemStack> stacks = new ArrayList<>();
+        Item resource = getResource().getItem();
+        for(int amount = 0; amount < count; amount += resource.getMaxCount()) {
+            stacks.add(new ItemStack(resource, (int) Math.min(resource.getMaxCount(), count - amount)));
+        }
+        return stacks;
     }
 
     @Override

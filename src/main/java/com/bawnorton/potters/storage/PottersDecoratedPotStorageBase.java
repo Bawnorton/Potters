@@ -8,7 +8,18 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 
-public abstract class PottersDecoratedPotStorageBase extends SingleItemStorage { @Override
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+
+public abstract class PottersDecoratedPotStorageBase extends SingleItemStorage {
+    private final List<Consumer<PottersDecoratedPotStorageBase>> listeners = new ArrayList<>();
+
+    public void addListener(Consumer<PottersDecoratedPotStorageBase> listener) {
+        listeners.add(listener);
+    }
+
+    @Override
     protected boolean canInsert(ItemVariant variant) {
         if(isResourceBlank()) return true;
         return variant.equals(getResource());
@@ -30,6 +41,7 @@ public abstract class PottersDecoratedPotStorageBase extends SingleItemStorage {
         }
         insert(ItemVariant.of(stack), 1, openTransaction);
         openTransaction.getOpenTransaction(openTransaction.nestingDepth()).commit();
+        listeners.forEach(listener -> listener.accept(this));
     }
 
     @SuppressWarnings("UnstableApiUsage")
@@ -46,6 +58,7 @@ public abstract class PottersDecoratedPotStorageBase extends SingleItemStorage {
         Item item = getResource().getItem();
         extracted = extract(getResource(), 1, openTransaction);
         openTransaction.getOpenTransaction(openTransaction.nestingDepth()).commit();
+        listeners.forEach(listener -> listener.accept(this));
         return new ItemStack(item, (int) extracted);
     }
 

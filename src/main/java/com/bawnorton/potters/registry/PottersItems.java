@@ -1,6 +1,7 @@
 package com.bawnorton.potters.registry;
 
 import com.bawnorton.potters.Potters;
+import com.bawnorton.potters.item.BottomlessDecoratedPotBlockItem;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
@@ -31,7 +32,7 @@ public class PottersItems {
         GOLD_DECORATED_POT = register(PottersBlocks.GOLD_DECORATED_POT);
         DIAMOND_DECORATED_POT = register(PottersBlocks.DIAMOND_DECORATED_POT);
         NETHERITE_DECORATED_POT = register(PottersBlocks.NETHERITE_DECORATED_POT);
-        BOTTOMLESS_DECORATED_POT = register(PottersBlocks.BOTTOMLESS_DECORATED_POT);
+        BOTTOMLESS_DECORATED_POT = register(new BottomlessDecoratedPotBlockItem(PottersBlocks.BOTTOMLESS_DECORATED_POT, new Item.Settings()));
 
         POTTERS_ITEM_GROUP = Registry.register(Registries.ITEM_GROUP, Potters.id("item_group"), FabricItemGroup.builder()
             .icon(IRON_DECORATED_POT::getDefaultStack)

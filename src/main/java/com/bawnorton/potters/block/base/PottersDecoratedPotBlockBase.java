@@ -68,17 +68,6 @@ public abstract class PottersDecoratedPotBlockBase extends DecoratedPotBlock {
     }
 
     @Override
-    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        if (state.hasBlockEntity() && !state.isOf(newState.getBlock())) {
-            world.removeBlockEntity(pos);
-        }
-    }
-
-    @Override
-    public void onProjectileHit(World world, BlockState state, BlockHitResult hit, ProjectileEntity projectile) {
-    }
-
-    @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         if (world.isClient) {
             world.getBlockEntity(pos, getBlockEntityType()).ifPresent(blockEntity -> blockEntity.readNbtFromStack(itemStack));
@@ -92,5 +81,9 @@ public abstract class PottersDecoratedPotBlockBase extends DecoratedPotBlock {
     @Override
     public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {
         return world.getBlockEntity(pos) instanceof PottersDecoratedPotBlockEntityBase pottersBlockEntity ? pottersBlockEntity.asStack(getBlockEntityType(), asItem()) : super.getPickStack(world, pos, state);
+    }
+
+    @Override
+    public void onProjectileHit(World world, BlockState state, BlockHitResult hit, ProjectileEntity projectile) {
     }
 }

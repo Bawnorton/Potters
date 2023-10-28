@@ -2,11 +2,11 @@ package com.bawnorton.potters.registry;
 
 import com.bawnorton.potters.Potters;
 import com.bawnorton.potters.block.*;
-import com.bawnorton.potters.block.base.FinitePottersDecoratedPotBlock;
+import com.bawnorton.potters.block.base.FiniteDecoratedPotBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
@@ -23,29 +23,24 @@ public class PottersBlocks {
 
     static {
         FINITE_DECORATED_POTS = new ArrayList<>();
-        IRON_DECORATED_POT = register("iron", IronDecoratedPotBlock::new);
-        GOLD_DECORATED_POT = register("gold", GoldDecoratedPotBlock::new);
-        DIAMOND_DECORATED_POT = register("diamond", DiamondDecoratedPotBlock::new);
-        NETHERITE_DECORATED_POT = register("netherite", NetheriteDecoratedPotBlock::new);
-        BOTTOMLESS_DECORATED_POT = register("bottomless", BottomlessDecoratedPotBlock::new);
+        IRON_DECORATED_POT = register("iron", new IronDecoratedPotBlock(FabricBlockSettings.copy(Blocks.DECORATED_POT), () -> Items.IRON_INGOT, 4));
+        GOLD_DECORATED_POT = register("gold", new GoldDecoratedPotBlock(FabricBlockSettings.copy(Blocks.DECORATED_POT), () -> Items.GOLD_INGOT, 16));
+        DIAMOND_DECORATED_POT = register("diamond", new DiamondDecoratedPotBlock(FabricBlockSettings.copy(Blocks.DECORATED_POT), () -> Items.DIAMOND, 64));
+        NETHERITE_DECORATED_POT = register("netherite", new NetheriteDecoratedPotBlock(FabricBlockSettings.copy(Blocks.DECORATED_POT), () -> Items.NETHERITE_INGOT, 256));
+        BOTTOMLESS_DECORATED_POT = register("bottomless", new BottomlessDecoratedPotBlock(FabricBlockSettings.copy(Blocks.DECORATED_POT)));
     }
 
     public static void init() {
         // no-op
     }
 
-    private static <T extends Block> Block register(String name, Factory<T> block) {
+    private static <T extends Block> Block register(String name, Block block) {
         Block value = Registry.register(
             Registries.BLOCK,
             Potters.id(name + "_decorated_pot"),
-            block.create(FabricBlockSettings.copy(Blocks.DECORATED_POT))
+            block
         );
-        if(value instanceof FinitePottersDecoratedPotBlock pottersBlock && pottersBlock.getStackCount() != -1) FINITE_DECORATED_POTS.add(value);
+        if(value instanceof FiniteDecoratedPotBlock pottersBlock && pottersBlock.getStackCount() != -1) FINITE_DECORATED_POTS.add(value);
         return value;
-    }
-
-    @FunctionalInterface
-    private interface Factory<T extends Block> {
-        T create(AbstractBlock.Settings settings);
     }
 }

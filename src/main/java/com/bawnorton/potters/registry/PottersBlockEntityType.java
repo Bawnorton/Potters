@@ -1,7 +1,7 @@
 package com.bawnorton.potters.registry;
 
 import com.bawnorton.potters.Potters;
-import com.bawnorton.potters.block.base.FinitePottersDecoratedPotBlock;
+import com.bawnorton.potters.block.base.FiniteDecoratedPotBlock;
 import com.bawnorton.potters.block.entity.FiniteDecoratedPotBlockEntity;
 import com.bawnorton.potters.block.entity.InfiniteDecoratedPotBlockEntity;
 import com.bawnorton.potters.block.entity.base.PottersDecoratedPotBlockEntityBase;
@@ -22,7 +22,10 @@ public class PottersBlockEntityType {
 
     static {
         ALL = new ArrayList<>();
-        FINITE_DECORATED_POT = register("finite", FabricBlockEntityTypeBuilder.create((pos, state) -> new FiniteDecoratedPotBlockEntity(pos, state, ((FinitePottersDecoratedPotBlock) state.getBlock()).getStackCount()), PottersBlocks.FINITE_DECORATED_POTS.toArray(new Block[]{}))
+        FINITE_DECORATED_POT = register("finite", FabricBlockEntityTypeBuilder.create((pos, state) -> {
+                FiniteDecoratedPotBlock block = (FiniteDecoratedPotBlock) state.getBlock();
+                return new FiniteDecoratedPotBlockEntity(pos, state, block.getStackCount());
+            }, PottersBlocks.FINITE_DECORATED_POTS.toArray(new Block[]{}))
             .build());
         INFINITE_DECORATED_POT = register("infinite", FabricBlockEntityTypeBuilder.create(InfiniteDecoratedPotBlockEntity::new, PottersBlocks.BOTTOMLESS_DECORATED_POT)
             .build());

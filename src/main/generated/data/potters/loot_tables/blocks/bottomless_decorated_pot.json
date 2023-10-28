@@ -1,0 +1,69 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "functions": [
+                {
+                  "conditions": [
+                    {
+                      "block": "potters:bottomless_decorated_pot",
+                      "condition": "minecraft:block_state_property",
+                      "properties": {
+                        "empty": "false"
+                      }
+                    }
+                  ],
+                  "function": "minecraft:copy_nbt",
+                  "ops": [
+                    {
+                      "op": "replace",
+                      "source": "sherds",
+                      "target": "BlockEntityTag.sherds"
+                    },
+                    {
+                      "op": "replace",
+                      "source": "variant",
+                      "target": "BlockEntityTag.variant"
+                    },
+                    {
+                      "op": "replace",
+                      "source": "count",
+                      "target": "BlockEntityTag.count"
+                    }
+                  ],
+                  "source": "block_entity"
+                }
+              ],
+              "name": "potters:bottomless_decorated_pot"
+            },
+            {
+              "type": "minecraft:item",
+              "functions": [
+                {
+                  "function": "minecraft:copy_nbt",
+                  "ops": [
+                    {
+                      "op": "replace",
+                      "source": "sherds",
+                      "target": "BlockEntityTag.sherds"
+                    }
+                  ],
+                  "source": "block_entity"
+                }
+              ],
+              "name": "potters:bottomless_decorated_pot"
+            }
+          ]
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}
