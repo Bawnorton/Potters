@@ -1,3 +1,8 @@
 {
-  "itemGroup.potters": "Potters"
+  "itemGroup.potters": "Potters",
+  "block.potters.iron_decorated_pot": "Iron Decorated Pot",
+  "block.potters.gold_decorated_pot": "Gold Decorated Pot",
+  "block.potters.diamond_decorated_pot": "Diamond Decorated Pot",
+  "block.potters.netherite_decorated_pot": "Netherite Decorated Pot",
+  "block.potters.bottomless_decorated_pot": "Bottomless Decorated Pot"
 }

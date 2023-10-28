@@ -21,7 +21,7 @@ public class PottersItems {
     public static final Item GOLD_DECORATED_POT;
     public static final Item DIAMOND_DECORATED_POT;
     public static final Item NETHERITE_DECORATED_POT;
-    public static final Item INFINITE_DECORATED_POT;
+    public static final Item BOTTOMLESS_DECORATED_POT;
 
     public static final ItemGroup POTTERS_ITEM_GROUP;
 
@@ -31,7 +31,7 @@ public class PottersItems {
         GOLD_DECORATED_POT = register(PottersBlocks.GOLD_DECORATED_POT);
         DIAMOND_DECORATED_POT = register(PottersBlocks.DIAMOND_DECORATED_POT);
         NETHERITE_DECORATED_POT = register(PottersBlocks.NETHERITE_DECORATED_POT);
-        INFINITE_DECORATED_POT = register(PottersBlocks.INFINITE_DECORATED_POT);
+        BOTTOMLESS_DECORATED_POT = register(PottersBlocks.BOTTOMLESS_DECORATED_POT);
 
         POTTERS_ITEM_GROUP = Registry.register(Registries.ITEM_GROUP, Potters.id("item_group"), FabricItemGroup.builder()
             .icon(IRON_DECORATED_POT::getDefaultStack)

@@ -1,10 +1,10 @@
 package com.bawnorton.potters;
 
 import com.bawnorton.potters.config.ConfigManager;
-import com.bawnorton.potters.registry.PottersBlockEntityType;
-import com.bawnorton.potters.registry.PottersBlocks;
-import com.bawnorton.potters.registry.PottersItems;
+import com.bawnorton.potters.registry.*;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.item.BlockItem;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +17,8 @@ public class Potters implements ModInitializer {
 	public void onInitialize() {
 		LOGGER.debug("Potters Initialized.");
 		ConfigManager.loadConfig();
+		PottersRegistryKeys.init();
+		PottersRegistries.init();
 		PottersBlocks.init();
 		PottersItems.init();
 		PottersBlockEntityType.init();

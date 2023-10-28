@@ -1,8 +1,9 @@
 {
 	"required": true,
-	"package": "com.bawnorton.potters.mixin.client",
+	"package": "com.bawnorton.potters.client.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"client": [
+		"BakedModelManagerMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

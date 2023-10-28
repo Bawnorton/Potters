@@ -19,7 +19,7 @@
 			"com.bawnorton.potters.Potters"
 		],
 		"client": [
-			"com.bawnorton.potters.PottersClient"
+			"com.bawnorton.potters.client.PottersClient"
 		]
 	},
 	"mixins": [

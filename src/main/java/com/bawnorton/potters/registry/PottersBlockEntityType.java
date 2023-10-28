@@ -1,8 +1,10 @@
 package com.bawnorton.potters.registry;
 
 import com.bawnorton.potters.Potters;
-import com.bawnorton.potters.blocks.entity.*;
-import com.bawnorton.potters.blocks.entity.base.PottersDecoratedPotBlockEntityBase;
+import com.bawnorton.potters.block.base.FinitePottersDecoratedPotBlock;
+import com.bawnorton.potters.block.entity.FiniteDecoratedPotBlockEntity;
+import com.bawnorton.potters.block.entity.InfiniteDecoratedPotBlockEntity;
+import com.bawnorton.potters.block.entity.base.PottersDecoratedPotBlockEntityBase;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.minecraft.block.Block;
@@ -15,36 +17,28 @@ import java.util.List;
 
 public class PottersBlockEntityType {
     public static final List<BlockEntityType<? extends PottersDecoratedPotBlockEntityBase>> ALL;
-    public static final BlockEntityType<IronDecoratedPotBlockEntity> IRON_DECORATED_POT;
-    public static final BlockEntityType<GoldDecoratedPotBlockEntity> GOLD_DECORATED_POT;
-    public static final BlockEntityType<DiamondDecoratedPotBlockEntity> DIAMOND_DECORATED_POT;
-    public static final BlockEntityType<NetheriteDecoratedPotBlockEntity> NETHERITE_DECORATED_POT;
+    public static final BlockEntityType<FiniteDecoratedPotBlockEntity> FINITE_DECORATED_POT;
     public static final BlockEntityType<InfiniteDecoratedPotBlockEntity> INFINITE_DECORATED_POT;
 
     static {
         ALL = new ArrayList<>();
-        IRON_DECORATED_POT = register("iron", IronDecoratedPotBlockEntity::new, PottersBlocks.IRON_DECORATED_POT);
-        GOLD_DECORATED_POT = register("gold", GoldDecoratedPotBlockEntity::new, PottersBlocks.GOLD_DECORATED_POT);
-        DIAMOND_DECORATED_POT = register("diamond", DiamondDecoratedPotBlockEntity::new, PottersBlocks.DIAMOND_DECORATED_POT);
-        NETHERITE_DECORATED_POT = register("netherite", NetheriteDecoratedPotBlockEntity::new, PottersBlocks.NETHERITE_DECORATED_POT);
-        INFINITE_DECORATED_POT = register("infinite", InfiniteDecoratedPotBlockEntity::new, PottersBlocks.INFINITE_DECORATED_POT);
+        FINITE_DECORATED_POT = register("finite", FabricBlockEntityTypeBuilder.create((pos, state) -> new FiniteDecoratedPotBlockEntity(pos, state, ((FinitePottersDecoratedPotBlock) state.getBlock()).getStackCount()), PottersBlocks.FINITE_DECORATED_POTS.toArray(new Block[]{}))
+            .build());
+        INFINITE_DECORATED_POT = register("infinite", FabricBlockEntityTypeBuilder.create(InfiniteDecoratedPotBlockEntity::new, PottersBlocks.BOTTOMLESS_DECORATED_POT)
+            .build());
     }
 
     public static void init() {
         ItemStorage.SIDED.registerForBlockEntities(((blockEntity, context) -> {
-            if(blockEntity instanceof PottersDecoratedPotBlockEntityBase pottersBlockEntity) {
-                return pottersBlockEntity.getInventoryWrapper();
+            if (blockEntity instanceof PottersDecoratedPotBlockEntityBase pottersBlockEntity) {
+                return pottersBlockEntity.getStorage();
             }
             return null;
         }), ALL.toArray(new BlockEntityType[]{}));
     }
 
-    private static <T extends PottersDecoratedPotBlockEntityBase> BlockEntityType<T> register(String name, FabricBlockEntityTypeBuilder.Factory<T> factory, Block... blocks) {
-        BlockEntityType<T> blockEntityType = Registry.register(
-            Registries.BLOCK_ENTITY_TYPE,
-            Potters.id(name + "_decorated_pot"),
-            FabricBlockEntityTypeBuilder.create(factory, blocks).build()
-        );
+    private static <T extends PottersDecoratedPotBlockEntityBase> BlockEntityType<T> register(String name, BlockEntityType<T> type) {
+        BlockEntityType<T> blockEntityType = Registry.register(Registries.BLOCK_ENTITY_TYPE, Potters.id(name + "_decorated_pot"), type);
         ALL.add(blockEntityType);
         return blockEntityType;
     }
