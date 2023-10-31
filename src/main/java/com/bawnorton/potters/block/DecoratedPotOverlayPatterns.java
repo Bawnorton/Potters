@@ -1,7 +1,6 @@
 package com.bawnorton.potters.block;
 
 import com.bawnorton.potters.Potters;
-import com.bawnorton.potters.block.base.PottersDecoratedPotBlockBase;
 import com.bawnorton.potters.registry.PottersBlocks;
 import com.bawnorton.potters.registry.PottersRegistries;
 import com.bawnorton.potters.registry.PottersRegistryKeys;
@@ -13,15 +12,23 @@ import net.minecraft.util.Identifier;
 import java.util.Map;
 
 public class DecoratedPotOverlayPatterns {
+    private static final String COPPER_PATTERN = "copper";
     private static final String IRON_PATTERN = "iron";
+    private static final String LAPIS_PATTERN = "lapis";
     private static final String GOLD_PATTERN = "gold";
+    private static final String AMETHYST_PATTERN = "amethyst";
     private static final String DIAMOND_PATTERN = "diamond";
+    private static final String EMERALD_PATTERN = "emerald";
     private static final String NETHERITE_PATTERN = "netherite";
     private static final String BOTTOMLESS_PATTERN = "bottomless";
     private static final Map<Block, Pattern> BLOCK_TO_PATTERN = Map.ofEntries(
+        Map.entry(PottersBlocks.COPPER_DECORATED_POT, Pattern.COPPER),
         Map.entry(PottersBlocks.IRON_DECORATED_POT, Pattern.IRON),
+        Map.entry(PottersBlocks.LAPIS_DECORATED_POT, Pattern.LAPIS),
         Map.entry(PottersBlocks.GOLD_DECORATED_POT, Pattern.GOLD),
+        Map.entry(PottersBlocks.AMETHYST_DECORATED_POT, Pattern.AMETHYST),
         Map.entry(PottersBlocks.DIAMOND_DECORATED_POT, Pattern.DIAMOND),
+        Map.entry(PottersBlocks.EMERALD_DECORATED_POT, Pattern.EMERALD),
         Map.entry(PottersBlocks.NETHERITE_DECORATED_POT, Pattern.NETHERITE),
         Map.entry(PottersBlocks.BOTTOMLESS_DECORATED_POT, Pattern.BOTTOMLESS)
     );
@@ -42,12 +49,16 @@ public class DecoratedPotOverlayPatterns {
         return new Identifier("minecraft", key.getValue().withPrefixedPath("entity/decorated_pot_base_overlay/").getPath());
     }
 
-    public static RegistryKey<String> sideFromBlock(PottersDecoratedPotBlockBase block) {
-        return BLOCK_TO_PATTERN.get(block).side();
+    public static RegistryKey<String> sideFromBlock(Block block) {
+        return BLOCK_TO_PATTERN.getOrDefault(block, Pattern.IRON).side();
     }
 
-    public static RegistryKey<String> baseFromBlock(PottersDecoratedPotBlockBase block) {
-        return BLOCK_TO_PATTERN.get(block).base();
+    public static RegistryKey<String> baseFromBlock(Block block) {
+        return BLOCK_TO_PATTERN.getOrDefault(block, Pattern.IRON).base();
+    }
+
+    public static String getPattern(Block block) {
+        return BLOCK_TO_PATTERN.get(block).pattern;
     }
 
     public static void register() {
@@ -63,11 +74,19 @@ public class DecoratedPotOverlayPatterns {
         Registry.register(PottersRegistries.DECORATED_POT_BASE_OVERLAY_PATTERN, Pattern.BOTTOMLESS.base(), BOTTOMLESS_PATTERN);
     }
 
-    private record Pattern(RegistryKey<String> side, RegistryKey<String> base) {
-        public static final Pattern IRON = new Pattern(ofSide(IRON_PATTERN), ofBase(IRON_PATTERN));
-        public static final Pattern NETHERITE = new Pattern(ofSide(NETHERITE_PATTERN), ofBase(NETHERITE_PATTERN));
-        public static final Pattern GOLD = new Pattern(ofSide(GOLD_PATTERN), ofBase(GOLD_PATTERN));
-        public static final Pattern DIAMOND = new Pattern(ofSide(DIAMOND_PATTERN), ofBase(DIAMOND_PATTERN));
-        public static final Pattern BOTTOMLESS = new Pattern(ofSide(BOTTOMLESS_PATTERN), ofBase(BOTTOMLESS_PATTERN));
+    private record Pattern(String pattern, RegistryKey<String> side, RegistryKey<String> base) {
+        public static final Pattern COPPER = new Pattern(COPPER_PATTERN);
+        public static final Pattern IRON = new Pattern(IRON_PATTERN);
+        public static final Pattern LAPIS = new Pattern(LAPIS_PATTERN);
+        public static final Pattern GOLD = new Pattern(GOLD_PATTERN);
+        public static final Pattern AMETHYST = new Pattern(AMETHYST_PATTERN);
+        public static final Pattern DIAMOND = new Pattern(DIAMOND_PATTERN);
+        public static final Pattern EMERALD = new Pattern(EMERALD_PATTERN);
+        public static final Pattern NETHERITE = new Pattern(NETHERITE_PATTERN);
+        public static final Pattern BOTTOMLESS = new Pattern(BOTTOMLESS_PATTERN);
+
+        public Pattern(String pattern) {
+            this(pattern, ofSide(pattern), ofBase(pattern));
+        }
     }
 }

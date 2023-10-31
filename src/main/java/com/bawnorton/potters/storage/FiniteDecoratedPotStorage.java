@@ -7,12 +7,13 @@ import net.minecraft.nbt.NbtCompound;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class FiniteDecoratedPotStorage extends PottersDecoratedPotStorageBase {
-    protected long stackCount;
+    protected Supplier<Integer> stackCountSupplier;
 
-    public FiniteDecoratedPotStorage(long stackCount) {
-        this.stackCount = stackCount;
+    public FiniteDecoratedPotStorage(Supplier<Integer> stackCountSupplier) {
+        this.stackCountSupplier = stackCountSupplier;
     }
 
     public List<ItemStack> getStacks() {
@@ -48,7 +49,7 @@ public class FiniteDecoratedPotStorage extends PottersDecoratedPotStorageBase {
 
     @Override
     protected long getCapacity(ItemVariant variant) {
-        return stackCount * variant.getItem().getMaxCount();
+        return stackCountSupplier.get().longValue() * variant.getItem().getMaxCount();
     }
 
     @Override

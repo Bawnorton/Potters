@@ -1,6 +1,7 @@
 package com.bawnorton.potters;
 
 import com.bawnorton.potters.config.ConfigManager;
+import com.bawnorton.potters.networking.Networking;
 import com.bawnorton.potters.registry.*;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.item.BlockItem;
@@ -16,7 +17,8 @@ public class Potters implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		LOGGER.debug("Potters Initialized.");
-		ConfigManager.loadConfig();
+		ConfigManager.loadConfigs();
+		Networking.init();
 		PottersRegistryKeys.init();
 		PottersRegistries.init();
 		PottersBlocks.init();

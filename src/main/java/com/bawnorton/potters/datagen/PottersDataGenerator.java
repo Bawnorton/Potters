@@ -7,6 +7,8 @@ public class PottersDataGenerator implements DataGeneratorEntrypoint {
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator generator) {
         FabricDataGenerator.Pack pack = generator.createPack();
-        pack.addProvider(PottersLootTables::new);
+        pack.addProvider(PottersLootTableProvider::new);
+        pack.addProvider(PottersModelProvider::new);
+        pack.addProvider(PottersLangProvider::new);
     }
 }

@@ -14,13 +14,14 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class FiniteDecoratedPotBlockEntity extends PottersDecoratedPotBlockEntityBase {
     private final FiniteDecoratedPotStorage storage;
 
-    public FiniteDecoratedPotBlockEntity(BlockPos pos, BlockState state, int stackCount) {
+    public FiniteDecoratedPotBlockEntity(BlockPos pos, BlockState state, Supplier<Integer> stackCountSupplier) {
         super(PottersBlockEntityType.FINITE_DECORATED_POT, pos, state);
-        this.storage = new FiniteDecoratedPotStorage(stackCount);
+        this.storage = new FiniteDecoratedPotStorage(stackCountSupplier);
     }
 
     public PottersDecoratedPotStorageBase getStorage() {
