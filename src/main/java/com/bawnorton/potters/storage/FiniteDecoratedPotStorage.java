@@ -20,8 +20,11 @@ public class FiniteDecoratedPotStorage extends PottersDecoratedPotStorageBase {
         long count = getCount().longValue();
         List<ItemStack> stacks = new ArrayList<>();
         Item resource = getResource().getItem();
-        for(int amount = 0; amount < count; amount += resource.getMaxCount()) {
-            stacks.add(new ItemStack(resource, (int) Math.min(resource.getMaxCount(), count - amount)));
+        NbtCompound nbt = getResource().getNbt();
+        for (int amount = 0; amount < count; amount += resource.getMaxCount()) {
+            ItemStack stack = new ItemStack(resource, (int) Math.min(resource.getMaxCount(), count - amount));
+            stack.setNbt(nbt);
+            stacks.add(stack);
         }
         return stacks;
     }
@@ -29,6 +32,16 @@ public class FiniteDecoratedPotStorage extends PottersDecoratedPotStorageBase {
     @Override
     protected boolean canInsert(ItemVariant variant) {
         return super.canInsert(variant) && getAmount() < getCapacity();
+    }
+
+    @Override
+    public Number getCount() {
+        return getAmount();
+    }
+
+    @Override
+    public void setCount(Number number) {
+        amount = number.longValue();
     }
 
     @Override
@@ -43,18 +56,13 @@ public class FiniteDecoratedPotStorage extends PottersDecoratedPotStorageBase {
     }
 
     @Override
-    public Number getCount() {
-        return getAmount();
+    public void writeNbt(NbtCompound nbt) {
+        nbt.put("variant", variant.toNbt());
+        nbt.putLong("count", getAmount());
     }
 
     @Override
     protected long getCapacity(ItemVariant variant) {
         return stackCountSupplier.get().longValue() * variant.getItem().getMaxCount();
-    }
-
-    @Override
-    public void writeNbt(NbtCompound nbt) {
-        nbt.put("variant", variant.toNbt());
-        nbt.putLong("count", getAmount());
     }
 }

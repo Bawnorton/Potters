@@ -30,7 +30,7 @@ public class ConfigOptionReference {
     private void validateType(Class<?> clazz) {
         if (!clazz.isAssignableFrom(value.getClass())) {
             throw new IllegalArgumentException("Invalid type " + clazz.getName() + " for " + value.getClass()
-                    .getName());
+                .getName());
         }
     }
 
@@ -160,7 +160,7 @@ public class ConfigOptionReference {
     }
 
     public @Nullable Identifier findTexture() {
-        if(!field.isAnnotationPresent(TextureLocation.class)) return null;
+        if (!field.isAnnotationPresent(TextureLocation.class)) return null;
 
         TextureLocation location = field.getAnnotation(TextureLocation.class);
         return new Identifier(location.value());

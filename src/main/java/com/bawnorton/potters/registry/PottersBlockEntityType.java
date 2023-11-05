@@ -3,7 +3,7 @@ package com.bawnorton.potters.registry;
 import com.bawnorton.potters.Potters;
 import com.bawnorton.potters.block.FiniteDecoratedPotBlock;
 import com.bawnorton.potters.block.entity.FiniteDecoratedPotBlockEntity;
-import com.bawnorton.potters.block.entity.InfiniteDecoratedPotBlockEntity;
+import com.bawnorton.potters.block.entity.BottomlessDecoratedPotBlockEntity;
 import com.bawnorton.potters.block.entity.base.PottersDecoratedPotBlockEntityBase;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
@@ -17,20 +17,19 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class PottersBlockEntityType {
-    private static final List<BlockEntityType<? extends PottersDecoratedPotBlockEntityBase>> ALL;
     public static final BlockEntityType<FiniteDecoratedPotBlockEntity> FINITE_DECORATED_POT;
-    public static final BlockEntityType<InfiniteDecoratedPotBlockEntity> INFINITE_DECORATED_POT;
+    public static final BlockEntityType<BottomlessDecoratedPotBlockEntity> BOTTOMLESS_DECORATED_POT;
+    private static final List<BlockEntityType<? extends PottersDecoratedPotBlockEntityBase>> ALL;
 
     static {
         ALL = new ArrayList<>();
         List<Block> blocks = new ArrayList<>();
         PottersBlocks.forEachFinite(blocks::add);
         FINITE_DECORATED_POT = register("finite", FabricBlockEntityTypeBuilder.create((pos, state) -> {
-                FiniteDecoratedPotBlock block = (FiniteDecoratedPotBlock) state.getBlock();
-                return new FiniteDecoratedPotBlockEntity(pos, state, block.getStackCountSupplier());
-            }, blocks.toArray(new Block[]{}))
-            .build());
-        INFINITE_DECORATED_POT = register("infinite", FabricBlockEntityTypeBuilder.create(InfiniteDecoratedPotBlockEntity::new, PottersBlocks.BOTTOMLESS_DECORATED_POT)
+            FiniteDecoratedPotBlock block = (FiniteDecoratedPotBlock) state.getBlock();
+            return new FiniteDecoratedPotBlockEntity(pos, state, block.getStackCountSupplier());
+        }, blocks.toArray(new Block[]{})).build());
+        BOTTOMLESS_DECORATED_POT = register("bottomless", FabricBlockEntityTypeBuilder.create(BottomlessDecoratedPotBlockEntity::new, PottersBlocks.BOTTOMLESS_DECORATED_POT)
             .build());
     }
 

@@ -16,13 +16,13 @@ public class PottersModelProvider extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-        PottersBlocks.forEach(block -> blockStateModelGenerator.registerBuiltin(block, Blocks.TERRACOTTA).includeWithoutItem(block));
+        PottersBlocks.forEach(block -> blockStateModelGenerator.registerBuiltin(block, Blocks.TERRACOTTA)
+            .includeWithoutItem(block));
     }
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-        TextureMap textureMap = new TextureMap()
-            .put(TextureKey.PARTICLE, new Identifier("entity/decorated_pot/decorated_pot_side"));
+        TextureMap textureMap = new TextureMap().put(TextureKey.PARTICLE, new Identifier("entity/decorated_pot/decorated_pot_side"));
         PottersItems.forEach(item -> {
             PottersBlockModel model = new PottersBlockModel();
             model.upload(ModelIds.getItemModelId(item), textureMap, itemModelGenerator.writer);

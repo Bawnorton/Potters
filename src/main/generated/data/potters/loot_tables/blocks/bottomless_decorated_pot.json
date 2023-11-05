@@ -8,40 +8,17 @@
           "type": "minecraft:alternatives",
           "children": [
             {
-              "type": "minecraft:item",
-              "functions": [
+              "type": "minecraft:dynamic",
+              "conditions": [
                 {
-                  "conditions": [
-                    {
-                      "block": "potters:bottomless_decorated_pot",
-                      "condition": "minecraft:block_state_property",
-                      "properties": {
-                        "empty": "false"
-                      }
-                    }
-                  ],
-                  "function": "minecraft:copy_nbt",
-                  "ops": [
-                    {
-                      "op": "replace",
-                      "source": "sherds",
-                      "target": "BlockEntityTag.sherds"
-                    },
-                    {
-                      "op": "replace",
-                      "source": "variant",
-                      "target": "BlockEntityTag.variant"
-                    },
-                    {
-                      "op": "replace",
-                      "source": "count",
-                      "target": "BlockEntityTag.count"
-                    }
-                  ],
-                  "source": "block_entity"
+                  "block": "potters:bottomless_decorated_pot",
+                  "condition": "minecraft:block_state_property",
+                  "properties": {
+                    "empty": "false"
+                  }
                 }
               ],
-              "name": "potters:bottomless_decorated_pot"
+              "name": "potters:with_content"
             },
             {
               "type": "minecraft:item",

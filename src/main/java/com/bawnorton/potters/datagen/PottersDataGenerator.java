@@ -10,5 +10,7 @@ public class PottersDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(PottersLootTableProvider::new);
         pack.addProvider(PottersModelProvider::new);
         pack.addProvider(PottersLangProvider::new);
+        pack.addProvider(PottersRecipeProvider::new);
+        pack.addProvider(PottersItemTagProvider::new);
     }
 }

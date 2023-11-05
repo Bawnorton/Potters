@@ -17,14 +17,14 @@ public class ParentedConfigOptionReference extends ConfigOptionReference {
     }
 
     @Override
-    public boolean isOf(OptionType type) {
-        if(getOptionType() == OptionType.INHERIT) return parent.isOf(type);
-        return super.isOf(type);
+    public String getFormattedName() {
+        return getParent().getFormattedName() + "." + super.getFormattedName();
     }
 
     @Override
-    public String getFormattedName() {
-        return getParent().getFormattedName() + "." + super.getFormattedName();
+    public boolean isOf(OptionType type) {
+        if (getOptionType() == OptionType.INHERIT) return parent.isOf(type);
+        return super.isOf(type);
     }
 
     public ConfigOptionReference getParent() {

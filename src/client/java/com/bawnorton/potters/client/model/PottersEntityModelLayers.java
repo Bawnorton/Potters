@@ -10,12 +10,8 @@ public class PottersEntityModelLayers {
     public static final EntityModelLayer DECORATED_POT_BASE_OVERLAY;
 
     static {
-        DECORATED_POT_SIDES_OVERLAY = register(
-            "decorated_pot_sides_overlay", PottersDecoratedPotBlockEntityRenderer::getSidesTexturedModelData
-        );
-        DECORATED_POT_BASE_OVERLAY = register(
-            "decorated_pot_base_overlay", PottersDecoratedPotBlockEntityRenderer::getTopBottomNeckTexturedModelData
-        );
+        DECORATED_POT_SIDES_OVERLAY = register("decorated_pot_sides_overlay", PottersDecoratedPotBlockEntityRenderer::getSidesTexturedModelData);
+        DECORATED_POT_BASE_OVERLAY = register("decorated_pot_base_overlay", PottersDecoratedPotBlockEntityRenderer::getTopBottomNeckTexturedModelData);
     }
 
     public static void init() {

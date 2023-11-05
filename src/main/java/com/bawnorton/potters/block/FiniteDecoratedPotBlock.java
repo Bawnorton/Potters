@@ -29,24 +29,20 @@ import java.util.function.Supplier;
 
 public class FiniteDecoratedPotBlock extends PottersDecoratedPotBlockBase {
     public static final Identifier MATERIAL_AND_SHERDS = Potters.id("material_and_sherds");
-    private static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
     public static final BooleanProperty CRACKED = Properties.CRACKED;
+    private static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
     private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
-    private final Supplier<Item> materialSupplier;
     private final Supplier<Integer> stackCountSupplier;
     private final int materialDropCount;
 
     public FiniteDecoratedPotBlock(Supplier<Item> materialSupplier, Supplier<Integer> stackCountSupplier, int materialDropCount) {
-        super(FabricBlockSettings.copy(Blocks.DECORATED_POT));
-        this.materialSupplier = materialSupplier;
+        super(materialSupplier, FabricBlockSettings.copy(Blocks.DECORATED_POT));
         this.stackCountSupplier = stackCountSupplier;
         this.materialDropCount = materialDropCount;
-        this.setDefaultState(
-            this.stateManager.getDefaultState()
-                .with(FACING, Direction.NORTH)
-                .with(WATERLOGGED, Boolean.FALSE)
-                .with(CRACKED, Boolean.FALSE)
-        );
+        this.setDefaultState(this.stateManager.getDefaultState()
+                                 .with(FACING, Direction.NORTH)
+                                 .with(WATERLOGGED, Boolean.FALSE)
+                                 .with(CRACKED, Boolean.FALSE));
     }
 
     public FiniteDecoratedPotBlock(Supplier<Item> materialSupplier, Supplier<Integer> stackCountSupplier) {
@@ -57,8 +53,9 @@ public class FiniteDecoratedPotBlock extends PottersDecoratedPotBlockBase {
         return stackCountSupplier;
     }
 
-    public Item getMaterial() {
-        return materialSupplier.get();
+    @Override
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new FiniteDecoratedPotBlockEntity(pos, state, getStackCountSupplier());
     }
 
     @Override
@@ -67,15 +64,10 @@ public class FiniteDecoratedPotBlock extends PottersDecoratedPotBlockBase {
     }
 
     @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new FiniteDecoratedPotBlockEntity(pos, state, getStackCountSupplier());
-    }
-
-    @Override
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if(blockEntity instanceof FiniteDecoratedPotBlockEntity finiteDecoratedPotBlockEntity) {
-            DefaultedList<ItemStack> stacks = finiteDecoratedPotBlockEntity.getStacks();
+            DefaultedList<ItemStack> stacks = finiteDecoratedPotBlockEntity.getAndClearStacks();
             ItemScatterer.spawn(world, pos, stacks);
             world.updateComparators(pos, this);
         }
@@ -88,12 +80,17 @@ public class FiniteDecoratedPotBlock extends PottersDecoratedPotBlockBase {
         if (blockEntity instanceof FiniteDecoratedPotBlockEntity finiteDecoratedPotBlockEntity) {
             builder.addDynamicDrop(MATERIAL_AND_SHERDS, lootConsumer -> {
                 finiteDecoratedPotBlockEntity.getSherds().stream().map(Item::getDefaultStack).forEach(lootConsumer);
-                for(int i = 0; i < materialDropCount; i++) {
+                for (int i = 0; i < materialDropCount; i++) {
                     lootConsumer.accept(getMaterial().getDefaultStack());
                 }
             });
         }
 
         return super.getDroppedStacks(state, builder);
+    }
+
+    @Override
+    public boolean isFinite() {
+        return true;
     }
 }

@@ -15,12 +15,10 @@ import java.util.stream.Collectors;
 public class PottersTexturedRenderLayers {
     public static final Identifier DECORATED_POT_SIDES_OVERLAY_ATLAS_TEXTURE = Potters.id("textures/atlas/decorated_pot_sides_overlay.png");
     public static final Identifier DECORATED_POT_BASE_OVERLAY_ATLAS_TEXTURE = Potters.id("textures/atlas/decorated_pot_base_overlay.png");
-    private static final Map<RegistryKey<String>, SpriteIdentifier> DECORATED_POT_OVERLAY_PATTERN_TEXTURES = PottersRegistries.DECORATED_POT_SIDES_OVERLAY_PATTERN
-        .getKeys()
+    private static final Map<RegistryKey<String>, SpriteIdentifier> DECORATED_POT_OVERLAY_PATTERN_TEXTURES = PottersRegistries.DECORATED_POT_SIDE_OVERLAY_PATTERN.getKeys()
         .stream()
         .collect(Collectors.toMap(Function.identity(), PottersTexturedRenderLayers::createSideOverlayPatternTextureId));
-    private static final Map<RegistryKey<String>, SpriteIdentifier> DECORATED_POT_BASE_OVERLAY_PATTERN_TEXTURES = PottersRegistries.DECORATED_POT_BASE_OVERLAY_PATTERN
-        .getKeys()
+    private static final Map<RegistryKey<String>, SpriteIdentifier> DECORATED_POT_BASE_OVERLAY_PATTERN_TEXTURES = PottersRegistries.DECORATED_POT_BASE_OVERLAY_PATTERN.getKeys()
         .stream()
         .collect(Collectors.toMap(Function.identity(), PottersTexturedRenderLayers::createBaseOverlayPatternTextureId));
 

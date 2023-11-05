@@ -7,7 +7,7 @@ import net.minecraft.nbt.NbtCompound;
 
 import java.math.BigInteger;
 
-public class InfiniteDecoratedPotStorage extends PottersDecoratedPotStorageBase {
+public class BottomlessDecoratedPotStorage extends PottersDecoratedPotStorageBase {
     private BigInteger count = BigInteger.ZERO;
 
     {
@@ -68,6 +68,11 @@ public class InfiniteDecoratedPotStorage extends PottersDecoratedPotStorageBase 
     @Override
     public Number getCount() {
         return count;
+    }
+
+    @Override
+    public void setCount(Number number) {
+        count = BigInteger.valueOf(number.longValue());
     }
 
     @Override

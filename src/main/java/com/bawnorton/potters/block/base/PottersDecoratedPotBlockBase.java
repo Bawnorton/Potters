@@ -10,6 +10,7 @@ import net.minecraft.block.entity.DecoratedPotBlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
@@ -25,24 +26,33 @@ import net.minecraft.world.WorldView;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Supplier;
+
 public abstract class PottersDecoratedPotBlockBase extends DecoratedPotBlock {
-    protected PottersDecoratedPotBlockBase(Settings settings) {
+    private final Supplier<Item> materialSupplier;
+
+    protected PottersDecoratedPotBlockBase(Supplier<Item> materialSupplier, Settings settings) {
         super(settings);
+        this.materialSupplier = materialSupplier;
     }
+
+    public Item getMaterial() {
+        return materialSupplier.get();
+    }
+
+    public abstract boolean isFinite();
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if(!(blockEntity instanceof PottersDecoratedPotBlockEntityBase pottersBlockEntity)) return ActionResult.PASS;
+        if (!(blockEntity instanceof PottersDecoratedPotBlockEntityBase pottersBlockEntity)) return ActionResult.PASS;
 
         ItemStack playerStack = player.getStackInHand(hand);
         PottersDecoratedPotStorageBase storage = pottersBlockEntity.getStorage();
-        if(player.isSneaking() && !storage.isResourceBlank() && (playerStack.isEmpty() || playerStack.isOf(storage.getResource().getItem()))) {
+        if (player.isSneaking() && !storage.isResourceBlank() && playerStack.isEmpty()) {
             ItemStack extracted = storage.extract();
-            if (!extracted.isEmpty()) {
-                if (!player.giveItemStack(extracted)) {
-                    player.dropItem(extracted, false);
-                }
+            if (!extracted.isEmpty() && !player.giveItemStack(extracted)) {
+                player.dropItem(extracted, false);
             }
             pottersBlockEntity.wobble(DecoratedPotBlockEntity.WobbleType.POSITIVE);
             world.playSound(null, pos, SoundEvents.BLOCK_DECORATED_POT_INSERT_FAIL, SoundCategory.BLOCKS, 1.0F, 1.0F);
@@ -70,20 +80,21 @@ public abstract class PottersDecoratedPotBlockBase extends DecoratedPotBlock {
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         if (world.isClient) {
-            world.getBlockEntity(pos, getBlockEntityType()).ifPresent(blockEntity -> blockEntity.readNbtFromStack(itemStack));
+            world.getBlockEntity(pos, getBlockEntityType())
+                .ifPresent(blockEntity -> blockEntity.readNbtFromStack(itemStack));
         }
     }
 
-    protected abstract BlockEntityType<? extends PottersDecoratedPotBlockEntityBase> getBlockEntityType();
-
     public abstract BlockEntity createBlockEntity(BlockPos pos, BlockState state);
+
+    @Override
+    public void onProjectileHit(World world, BlockState state, BlockHitResult hit, ProjectileEntity projectile) {
+    }
 
     @Override
     public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {
         return world.getBlockEntity(pos) instanceof PottersDecoratedPotBlockEntityBase pottersBlockEntity ? pottersBlockEntity.asStack(getBlockEntityType(), asItem()) : super.getPickStack(world, pos, state);
     }
 
-    @Override
-    public void onProjectileHit(World world, BlockState state, BlockHitResult hit, ProjectileEntity projectile) {
-    }
+    protected abstract BlockEntityType<? extends PottersDecoratedPotBlockEntityBase> getBlockEntityType();
 }

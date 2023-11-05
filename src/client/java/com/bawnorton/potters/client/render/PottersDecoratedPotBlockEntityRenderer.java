@@ -31,10 +31,13 @@ import java.util.Objects;
 public class PottersDecoratedPotBlockEntityRenderer implements BlockEntityRenderer<PottersDecoratedPotBlockEntityBase> {
     private static final SpriteIdentifier baseTexture;
 
+    static {
+        baseTexture = Objects.requireNonNull(TexturedRenderLayers.getDecoratedPotPatternTextureId(DecoratedPotPatterns.DECORATED_POT_BASE_KEY));
+    }
+
     private final ModelPart neck;
     private final ModelPart top;
     private final ModelPart bottom;
-
     private final ModelPart front;
     private final ModelPart back;
     private final ModelPart left;
@@ -52,17 +55,19 @@ public class PottersDecoratedPotBlockEntityRenderer implements BlockEntityRender
         this.right = sides.getChild("right");
     }
 
-     static {
-        baseTexture = Objects.requireNonNull(TexturedRenderLayers.getDecoratedPotPatternTextureId(DecoratedPotPatterns.DECORATED_POT_BASE_KEY));
-     }
-
     public static TexturedModelData getTopBottomNeckTexturedModelData() {
         ModelData topAndBottom = new ModelData();
         ModelPartData partData = topAndBottom.getRoot();
         Dilation dilation = new Dilation(0.2F);
         Dilation dilation2 = new Dilation(-0.1F);
-        partData.addChild("neck", ModelPartBuilder.create().uv(0, 0).cuboid(4.0F, 17.0F, 4.0F, 8.0F, 3.0F, 8.0F, dilation2).uv(0, 5).cuboid(5.0F, 20.0F, 5.0F, 6.0F, 1.0F, 6.0F, dilation), ModelTransform.of(0.0F, 37.0F, 16.0F, 3.1415927F, 0.0F, 0.0F));
-        ModelPartBuilder partBuilder = ModelPartBuilder.create().uv(-14, 13).cuboid(0.0F, 0.0F, 0.0F, 14.0F, 0.0F, 14.0F);
+        partData.addChild("neck", ModelPartBuilder.create()
+            .uv(0, 0)
+            .cuboid(4.0F, 17.0F, 4.0F, 8.0F, 3.0F, 8.0F, dilation2)
+            .uv(0, 5)
+            .cuboid(5.0F, 20.0F, 5.0F, 6.0F, 1.0F, 6.0F, dilation), ModelTransform.of(0.0F, 37.0F, 16.0F, 3.1415927F, 0.0F, 0.0F));
+        ModelPartBuilder partBuilder = ModelPartBuilder.create()
+            .uv(-14, 13)
+            .cuboid(0.0F, 0.0F, 0.0F, 14.0F, 0.0F, 14.0F);
         partData.addChild("top", partBuilder, ModelTransform.of(1.0F, 16.0F, 1.0F, 0.0F, 0.0F, 0.0F));
         partData.addChild("bottom", partBuilder, ModelTransform.of(1.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F));
         return TexturedModelData.of(topAndBottom, 32, 32);
@@ -71,7 +76,9 @@ public class PottersDecoratedPotBlockEntityRenderer implements BlockEntityRender
     public static TexturedModelData getSidesTexturedModelData() {
         ModelData sides = new ModelData();
         ModelPartData partData = sides.getRoot();
-        ModelPartBuilder partBuilder = ModelPartBuilder.create().uv(1, 0).cuboid(0.0F, 0.0F, 0.0F, 14.0F, 16.0F, 0.0F, EnumSet.of(Direction.NORTH));
+        ModelPartBuilder partBuilder = ModelPartBuilder.create()
+            .uv(1, 0)
+            .cuboid(0.0F, 0.0F, 0.0F, 14.0F, 16.0F, 0.0F, EnumSet.of(Direction.NORTH));
         partData.addChild("back", partBuilder, ModelTransform.of(15.0F, 16.0F, 1.0F, 0.0F, 0.0F, 3.1415927F));
         partData.addChild("left", partBuilder, ModelTransform.of(1.0F, 16.0F, 1.0F, 0.0F, -1.5707964F, 3.1415927F));
         partData.addChild("right", partBuilder, ModelTransform.of(15.0F, 16.0F, 15.0F, 0.0F, 1.5707964F, 3.1415927F));
@@ -95,37 +102,6 @@ public class PottersDecoratedPotBlockEntityRenderer implements BlockEntityRender
 
     private static SpriteIdentifier getBaseOverlayTextureIdFromBlock(PottersDecoratedPotBlockBase block) {
         return PottersTexturedRenderLayers.getBaseOverlayPatternTextureId(DecoratedPotOverlayPatterns.baseFromBlock(block));
-    }
-
-
-    public void render(PottersDecoratedPotBlockEntityBase decoratedPotBlockEntity, float f, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, int overlay) {
-        matrixStack.push();
-        Direction direction = decoratedPotBlockEntity.getHorizontalFacing();
-        matrixStack.translate(0.5, 0.0, 0.5);
-        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0F - direction.asRotation()));
-        matrixStack.translate(-0.5, 0.0, -0.5);
-        DecoratedPotBlockEntity.WobbleType wobbleType = decoratedPotBlockEntity.lastWobbleType;
-        if (wobbleType != null && decoratedPotBlockEntity.getWorld() != null) {
-            float wobbleAmount = ((float)(decoratedPotBlockEntity.getWorld().getTime() - decoratedPotBlockEntity.lastWobbleTime) + f) / (float)wobbleType.lengthInTicks;
-            if (wobbleAmount >= 0.0F && wobbleAmount <= 1.0F) {
-                if (wobbleType == DecoratedPotBlockEntity.WobbleType.POSITIVE) {
-                    float progression = wobbleAmount * 2 * MathHelper.PI;
-                    matrixStack.multiply(RotationAxis.POSITIVE_X.rotation(-1.5F * (MathHelper.cos(progression) + 0.5F) * MathHelper.sin(progression / 2.0F) / 64), 0.5F, 0.0F, 0.5F);
-                    matrixStack.multiply(RotationAxis.POSITIVE_Z.rotation(MathHelper.sin(progression) / 64), 0.5F, 0.0F, 0.5F);
-                } else {
-                    float progression = MathHelper.sin(-wobbleAmount * 3.0F * MathHelper.PI) / 8;
-                    matrixStack.multiply(RotationAxis.POSITIVE_Y.rotation(progression * (1.0F - wobbleAmount)), 0.5F, 0.0F, 0.5F);
-                }
-            }
-        }
-
-        VertexConsumer solid = baseTexture.getVertexConsumer(vertexConsumerProvider, RenderLayer::getEntitySolid);
-        Block block = decoratedPotBlockEntity.getCachedState().getBlock();
-        renderBase(this.neck, this.top, this.bottom, matrixStack, solid, light, overlay);
-        renderDecoratedSides(this.front, this.back, this.left, this.right, matrixStack, vertexConsumerProvider, light, overlay, decoratedPotBlockEntity.getSherds());
-        renderBaseOverlay(this.neck, this.top, this.bottom, matrixStack, vertexConsumerProvider, light, overlay, block);
-        renderSidesOverlay(this.front, this.back, this.left, this.right, matrixStack, vertexConsumerProvider, light, overlay, block);
-        matrixStack.pop();
     }
 
     private static void renderDecoratedSide(ModelPart part, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, @Nullable SpriteIdentifier textureId) {
@@ -152,10 +128,10 @@ public class PottersDecoratedPotBlockEntityRenderer implements BlockEntityRender
     }
 
     private static void renderBaseOverlay(ModelPart neck, ModelPart top, ModelPart bottom, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, int overlay, Block block) {
-        if(!(block instanceof PottersDecoratedPotBlockBase pottersBlock)) return;
+        if (!(block instanceof PottersDecoratedPotBlockBase pottersBlock)) return;
 
         SpriteIdentifier textureId = getBaseOverlayTextureIdFromBlock(pottersBlock);
-        if(textureId == null) return;
+        if (textureId == null) return;
 
         VertexConsumer cutout = textureId.getVertexConsumer(vertexConsumerProvider, RenderLayer::getEntityCutout);
         neck.render(matrixStack, cutout, light, overlay);
@@ -164,10 +140,10 @@ public class PottersDecoratedPotBlockEntityRenderer implements BlockEntityRender
     }
 
     private static void renderSidesOverlay(ModelPart front, ModelPart back, ModelPart left, ModelPart right, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, int overlay, Block block) {
-        if(!(block instanceof PottersDecoratedPotBlockBase pottersBlock)) return;
+        if (!(block instanceof PottersDecoratedPotBlockBase pottersBlock)) return;
 
         SpriteIdentifier textureId = getSideOverlayTextureIdFromBlock(pottersBlock);
-        if(textureId == null) return;
+        if (textureId == null) return;
 
         VertexConsumer cutout = textureId.getVertexConsumer(vertexConsumerProvider, RenderLayer::getEntityCutout);
         front.render(matrixStack, cutout, light, overlay);
@@ -200,6 +176,37 @@ public class PottersDecoratedPotBlockEntityRenderer implements BlockEntityRender
         renderBaseOverlay(neck, top, bottom, matrixStack, vertexConsumerProvider, light, overlay, block);
         renderSidesOverlay(front, back, left, right, matrixStack, vertexConsumerProvider, light, overlay, block);
 
+        matrixStack.pop();
+    }
+
+    public void render(PottersDecoratedPotBlockEntityBase decoratedPotBlockEntity, float f, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, int overlay) {
+        matrixStack.push();
+        Direction direction = decoratedPotBlockEntity.getHorizontalFacing();
+        matrixStack.translate(0.5, 0.0, 0.5);
+        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0F - direction.asRotation()));
+        matrixStack.translate(-0.5, 0.0, -0.5);
+        DecoratedPotBlockEntity.WobbleType wobbleType = decoratedPotBlockEntity.lastWobbleType;
+        if (wobbleType != null && decoratedPotBlockEntity.getWorld() != null) {
+            float wobbleAmount = ((float) (decoratedPotBlockEntity.getWorld()
+                .getTime() - decoratedPotBlockEntity.lastWobbleTime) + f) / (float) wobbleType.lengthInTicks;
+            if (wobbleAmount >= 0.0F && wobbleAmount <= 1.0F) {
+                if (wobbleType == DecoratedPotBlockEntity.WobbleType.POSITIVE) {
+                    float progression = wobbleAmount * 2 * MathHelper.PI;
+                    matrixStack.multiply(RotationAxis.POSITIVE_X.rotation(-1.5F * (MathHelper.cos(progression) + 0.5F) * MathHelper.sin(progression / 2.0F) / 64), 0.5F, 0.0F, 0.5F);
+                    matrixStack.multiply(RotationAxis.POSITIVE_Z.rotation(MathHelper.sin(progression) / 64), 0.5F, 0.0F, 0.5F);
+                } else {
+                    float progression = MathHelper.sin(-wobbleAmount * 3.0F * MathHelper.PI) / 8;
+                    matrixStack.multiply(RotationAxis.POSITIVE_Y.rotation(progression * (1.0F - wobbleAmount)), 0.5F, 0.0F, 0.5F);
+                }
+            }
+        }
+
+        VertexConsumer solid = baseTexture.getVertexConsumer(vertexConsumerProvider, RenderLayer::getEntitySolid);
+        Block block = decoratedPotBlockEntity.getCachedState().getBlock();
+        renderBase(this.neck, this.top, this.bottom, matrixStack, solid, light, overlay);
+        renderDecoratedSides(this.front, this.back, this.left, this.right, matrixStack, vertexConsumerProvider, light, overlay, decoratedPotBlockEntity.getSherds());
+        renderBaseOverlay(this.neck, this.top, this.bottom, matrixStack, vertexConsumerProvider, light, overlay, block);
+        renderSidesOverlay(this.front, this.back, this.left, this.right, matrixStack, vertexConsumerProvider, light, overlay, block);
         matrixStack.pop();
     }
 }

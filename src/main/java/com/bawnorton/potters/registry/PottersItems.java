@@ -19,9 +19,8 @@ import java.util.function.Consumer;
 import static com.bawnorton.potters.registry.PottersBlocks.IRON_DECORATED_POT;
 
 public class PottersItems {
-    private static final List<Item> ALL;
-
     public static final ItemGroup POTTERS_ITEM_GROUP;
+    private static final List<Item> ALL;
 
     static {
         ALL = new ArrayList<>();

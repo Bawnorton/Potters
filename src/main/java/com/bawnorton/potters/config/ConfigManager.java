@@ -19,14 +19,14 @@ import java.nio.file.Path;
 
 public class ConfigManager {
     private static final Gson GSON = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-            .setPrettyPrinting()
-            .create();
+        .setPrettyPrinting()
+        .create();
     private static final Path localConfigPath = FabricLoader.getInstance()
-            .getConfigDir()
-            .resolve(Potters.MOD_ID + ".json");
+        .getConfigDir()
+        .resolve(Potters.MOD_ID + ".json");
     private static final Path serverConfigPath = FabricLoader.getInstance()
-            .getConfigDir()
-            .resolve(Potters.MOD_ID + "-server.json");
+        .getConfigDir()
+        .resolve(Potters.MOD_ID + "-server.json");
 
     private static boolean loaded = false;
 
