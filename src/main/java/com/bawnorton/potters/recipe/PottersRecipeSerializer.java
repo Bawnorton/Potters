@@ -5,7 +5,7 @@ import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialRecipeSerializer;
 
 public interface PottersRecipeSerializer<T extends Recipe<?>> extends RecipeSerializer<T> {
-    RecipeSerializer<CraftingPottersDecoratedPotRecipe> CRAFTING_POTTERS_DECORATED_POT = RecipeSerializer.register("crafting_potters_decorated_pot", new SpecialRecipeSerializer<>(CraftingPottersDecoratedPotRecipe::new));
+    RecipeSerializer<NbtPreservingRecipe> UPGRADING_POTTERS = RecipeSerializer.register("upgrading_potters", new SpecialRecipeSerializer<>(UpgradingPottersRecipe::new));
 
     static void init() {
         // no-op

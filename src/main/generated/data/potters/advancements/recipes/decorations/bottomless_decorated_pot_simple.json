@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_bottomless_core": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "potters:bottomless_decorated_pot_core"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "potters:bottomless_decorated_pot_simple"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_bottomless_core"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "potters:bottomless_decorated_pot_simple"
+    ]
+  }
+}

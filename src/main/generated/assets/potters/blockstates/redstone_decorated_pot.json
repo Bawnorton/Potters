@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "potters:block/redstone_decorated_pot"
+    }
+  }
+}

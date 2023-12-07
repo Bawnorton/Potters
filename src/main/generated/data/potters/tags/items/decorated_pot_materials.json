@@ -2,11 +2,12 @@
   "replace": false,
   "values": [
     "minecraft:copper_ingot",
-    "minecraft:iron_ingot",
     "minecraft:lapis_lazuli",
-    "minecraft:gold_ingot",
-    "minecraft:amethyst_shard",
+    "minecraft:redstone",
     "minecraft:emerald",
+    "minecraft:amethyst_shard",
+    "minecraft:iron_ingot",
+    "minecraft:gold_ingot",
     "minecraft:diamond",
     "minecraft:netherite_ingot",
     "minecraft:ender_pearl"

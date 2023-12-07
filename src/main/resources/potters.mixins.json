@@ -4,7 +4,9 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "DecoratedPotBlockEntityMixin",
-    "DecoratedPotBlockMixin"
+    "DecoratedPotBlockMixin",
+    "RecipeManagerMixin",
+    "accessor.ShapedRecipeJsonBuilderAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

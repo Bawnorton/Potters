@@ -13,7 +13,11 @@ public class Config {
     @IntOption(value = 12, min = 1)
     public int lapisStackCount;
     @IntOption(value = 16, min = 1)
+    public int redstoneStackCount;
+    @IntOption(value = 20, min = 1)
     public int goldStackCount;
+    @IntOption(value = 24, min = 1)
+    public int quartzStackCount;
     @IntOption(value = 32, min = 1)
     public int amethystStackCount;
     @IntOption(value = 48, min = 1)

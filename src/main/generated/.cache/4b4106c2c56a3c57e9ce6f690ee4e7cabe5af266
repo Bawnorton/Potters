@@ -1,10 +1,11 @@
-// 23w44a	2023-11-04T14:57:32.603646	Potters/Block Loot Tables
+// 23w45a	2023-11-09T16:42:55.425387	Potters/Block Loot Tables
 06168a6d2c16493bfe49d43c7a3ac59e43205e4a data/potters/loot_tables/blocks/amethyst_decorated_pot.json
 f45a6e0de052eb24c18685a2563639849cd502a8 data/potters/loot_tables/blocks/netherite_decorated_pot.json
 4040784e3c71c889516e1355a3648853a49ff7c9 data/potters/loot_tables/blocks/gold_decorated_pot.json
+ae82936d56c443c294d3564d1556cc89e48ded7c data/potters/loot_tables/blocks/redstone_decorated_pot.json
 54ed1f239f1430361f08eec6a20661069ca3601f data/potters/loot_tables/blocks/diamond_decorated_pot.json
-cfd54601f660d09ae3a7f53c7ef603ddec4c9255 data/potters/loot_tables/blocks/emerald_decorated_pot.json
 ce4e02251e05ef2a422517d6cfbb17bba1c475f7 data/potters/loot_tables/blocks/copper_decorated_pot.json
+cfd54601f660d09ae3a7f53c7ef603ddec4c9255 data/potters/loot_tables/blocks/emerald_decorated_pot.json
 d76313a35771389d503853f7c4e67a90dd9cab9c data/potters/loot_tables/blocks/iron_decorated_pot.json
-a46076f629faa982b7d6cf8b23f3e3ae19f7c780 data/potters/loot_tables/blocks/bottomless_decorated_pot.json
 801aaa36a6cdbc38360ce24319632984d196c5bb data/potters/loot_tables/blocks/lapis_decorated_pot.json
+a46076f629faa982b7d6cf8b23f3e3ae19f7c780 data/potters/loot_tables/blocks/bottomless_decorated_pot.json

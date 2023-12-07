@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:decorated_pot"
+    },
+    "M": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    "M M",
+    " # ",
+    "M M"
+  ],
+  "result": {
+    "item": "potters:iron_decorated_pot"
+  }
+}

@@ -33,10 +33,12 @@ public class FiniteDecoratedPotBlock extends PottersDecoratedPotBlockBase {
     private static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
     private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
     private final Supplier<Integer> stackCountSupplier;
+    private final Supplier<Item> upgradeCore;
     private final int materialDropCount;
 
-    public FiniteDecoratedPotBlock(Supplier<Item> materialSupplier, Supplier<Integer> stackCountSupplier, int materialDropCount) {
+    public FiniteDecoratedPotBlock(Supplier<Item> materialSupplier, Supplier<Item> upgradeCore, Supplier<Integer> stackCountSupplier, int materialDropCount) {
         super(materialSupplier, FabricBlockSettings.copy(Blocks.DECORATED_POT));
+        this.upgradeCore = upgradeCore;
         this.stackCountSupplier = stackCountSupplier;
         this.materialDropCount = materialDropCount;
         this.setDefaultState(this.stateManager.getDefaultState()
@@ -45,12 +47,16 @@ public class FiniteDecoratedPotBlock extends PottersDecoratedPotBlockBase {
                                  .with(CRACKED, Boolean.FALSE));
     }
 
-    public FiniteDecoratedPotBlock(Supplier<Item> materialSupplier, Supplier<Integer> stackCountSupplier) {
-        this(materialSupplier, stackCountSupplier, 4);
+    public FiniteDecoratedPotBlock(Supplier<Item> materialSupplier, Supplier<Item> upgradeCore, Supplier<Integer> stackCountSupplier) {
+        this(materialSupplier, upgradeCore, stackCountSupplier, 4);
     }
 
     public Supplier<Integer> getStackCountSupplier() {
         return stackCountSupplier;
+    }
+
+    public Item getUpgradeCore() {
+        return upgradeCore.get();
     }
 
     @Override

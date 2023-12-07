@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "potters:netherite_decorated_pot"
+    },
+    "C": {
+      "tag": "potters:bottomless_decorated_pot_core"
+    },
+    "M": {
+      "item": "minecraft:ender_pearl"
+    }
+  },
+  "pattern": [
+    "M M",
+    " # ",
+    " C "
+  ],
+  "result": {
+    "item": "potters:bottomless_decorated_pot"
+  }
+}
